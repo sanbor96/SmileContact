@@ -12,7 +12,6 @@ use Magento\Framework\Translate\Inline\StateInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Store\Model\ScopeInterface;
-use Smile\Contact\Api\Data\NoteInterface;
 use Smile\Contact\Api\NoteRepositoryInterface;
 use Smile\Contact\Model\NoteFactory;
 use Smile\Contact\Model\Note;
