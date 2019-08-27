@@ -16,7 +16,6 @@ use Smile\Contact\Api\NoteRepositoryInterface;
 use Smile\Contact\Model\NoteFactory;
 use Smile\Contact\Model\Note;
 
-
 /**
  * Class Index
  *
