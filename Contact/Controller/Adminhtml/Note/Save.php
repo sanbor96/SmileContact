@@ -12,6 +12,7 @@ use Magento\Framework\Translate\Inline\StateInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Store\Model\ScopeInterface;
+use Smile\Contact\Api\Data\NoteInterface;
 use Smile\Contact\Api\NoteRepositoryInterface;
 use Smile\Contact\Model\NoteFactory;
 use Smile\Contact\Model\Note;
@@ -153,27 +154,43 @@ class Save extends Action
         return $resultRedirect->setPath('*/*/');
     }
 
+    /**
+     * Send mail
+     *
+     * @param NoteRepositoryInterface $model
+     */
     private function sendMail($model)
     {
         $this->inlineTranslation->suspend();
-        $this->transportBuilder
-            ->setTemplateIdentifier('note_email_template')
-            ->setTemplateOptions($this->getTemplateOptions())
-            ->setTemplateVars(
-                [
-                    'comment' => $model->getComment(),
-                    'answer' => $model->getAnswer()
-                ]
-            )
-            ->setFrom($this->getSenderInfo())
-            ->addTo($model->getEmail())
-            ->getTransport()
-            ->sendMessage();
+
+        try {
+            $this->transportBuilder
+                ->setTemplateIdentifier('note_email_template')
+                ->setTemplateOptions($this->getTemplateOptions())
+                ->setTemplateVars(
+                    [
+                        'comment' => $model->getComment(),
+                        'answer' => $model->getAnswer()
+                    ]
+                )
+                ->setFrom($this->getSenderInfo())
+                ->addTo($model->getEmail())
+                ->getTransport()
+                ->sendMessage();
+        } catch (\Exception $e) {
+            $this->messageManager->addErrorMessage($e->getMessage());
+        }
+
         $this->inlineTranslation->resume();
 
         $this->messageManager->addSuccessMessage(__('E-mail is sended.'));
     }
 
+    /**
+     * Get template options
+     *
+     * @return array
+     */
     private function getTemplateOptions()
     {
         return [
@@ -182,6 +199,11 @@ class Save extends Action
         ];
     }
 
+    /**
+     * Get sender info
+     *
+     * @return array
+     */
     private function getSenderInfo()
     {
         return [
