@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Smile Contact menu
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Smile_Contact::note"
+             title="Contact Notes"
+             module="Smile_Contact"
+             sortOrder="50"
+             parent="Magento_Customer::customer"
+             action="smile_contact/note"
+             resource="Smile_Contact::note" />
+    </menu>
+</config>

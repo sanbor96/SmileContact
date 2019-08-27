@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Acl configuration
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Customer::customer">
+                    <resource id="Smile_Contact::note" title="Note" translate="title" sortOrder="50">
+                        <resource id="Smile_Contact::note_save" title="Save Note" translate="title" sortOrder="10" />
+                        <resource id="Smile_Contact::note_delete" title="Delete Note" translate="title" sortOrder="20" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

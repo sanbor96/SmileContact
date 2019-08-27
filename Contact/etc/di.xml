@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Smile Contact dependency injection adminhtml
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Contact\Controller\Index\Post">
+        <plugin name="smile_contact_index_post_before_execute" type="Smile\Contact\Plugin\Controller\Index\BeforePostExecutePlugin" sortOrder="10" disabled="false" />
+    </type>
+
+    <preference for="Smile\Contact\Api\Data\NoteInterface" type="Smile\Contact\Model\Note" />
+    <preference for="Smile\Contact\Api\Data\NoteSearchResultsInterface" type="Magento\Framework\Api\SearchResults" />
+    <preference for="Smile\Contact\Api\NoteRepositoryInterface" type="Smile\Contact\Model\NoteRepository" />
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="smile_contact_note_listing_data_source" xsi:type="string">Smile\Contact\Model\ResourceModel\Note\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\Model\Entity\RepositoryFactory">
+        <arguments>
+            <argument name="entities" xsi:type="array">
+                <item name="Smile\Contact\Api\Data\NoteInterface" xsi:type="string">Smile\Contact\Api\NoteRepositoryInterface</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Smile\Contact\Model\ResourceModel\Note\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">smile_contact_note</argument>
+            <argument name="eventPrefix" xsi:type="string">smile_contact_note_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">note_grid_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Smile\Contact\Model\ResourceModel\Note</argument>
+        </arguments>
+    </type>
+
+    <virtualType name="ContactGridFilterPoolBor" type="Magento\Framework\View\Element\UiComponent\DataProvider\FilterPool">
+        <arguments>
+            <argument name="appliers" xsi:type="array">
+                <item name="regular" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\RegularFilter</item>
+                <item name="fulltext" xsi:type="object">Magento\Framework\View\Element\UiComponent\DataProvider\FulltextFilter</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <type name="Magento\Framework\EntityManager\MetadataPool">
+        <arguments>
+            <argument name="metadata" xsi:type="array">
+                <item name="Smile\Contact\Api\Data\NoteInterface" xsi:type="array">
+                    <item name="entityTableName" xsi:type="string">smile_contact_note</item>
+                    <item name="identifierField" xsi:type="string">id</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\EntityManager\HydratorPool">
+        <arguments>
+            <argument name="hydrators" xsi:type="array">
+                <item name="Smile\Contact\Api\Data\NoteInterface" xsi:type="string">Magento\Framework\EntityManager\AbstractModelHydrator</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
